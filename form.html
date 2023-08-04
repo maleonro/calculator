@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        /* Define classes for colors */
+        .color-black { color: #000000; }
+        .background-black { background-color: #282828; }
+        .border-black { border: 2px solid #212121; }
+        .background-dark-gray { background-color: #212121; }
+        .color-white { color: #fbffef; }
+        .background-white { background-color: #ffffff; }
+        .border-purple { border: 0px solid #AE9BE3; }
+        .background-purple-1 { background-color: #7453CF; }
+        .background-purple-2 { background-color: #AE9BE3; }
+        .color-green { color: #D2FA64; }
+        .border-transparent { border: 4px solid rgba(0, 0, 0, 0.1); }
+        .border-left-purple { border-left-color: #AE9BE3; }
+        
+        /* Define classes for font sizes */
+        .font-size-15 { font-size: 15px; }
+        .font-size-12 { font-size: 12px; }
+        
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        
+        form {
+            padding: 20px;
+            border-radius: 8px;
+            width: 300px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+        }
+        
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        label {
+            margin-top: 15px;
+        }
+        
+        input[type="number"] {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body class="background-dark-gray color-white">
+    <form method="POST" class="border-transparent background-black color-white font-size-15">
+        <label for="primeros_compradores">Primeros compradores:</label><br>
+        <input type="number" id="primeros_compradores" name="primeros_compradores" value="1000" min="0" required><br>
+        <label for="nivel_descuento">Nivel de descuento (porcentaje):</label><br>
+        <input type="number" id="nivel_descuento" name="nivel_descuento" value="10" min="0" max="100" required><br>
+        <label for="porcentaje_retorno">Porcentaje de retorno (porcentaje):</label><br>
+        <input type="number" id="porcentaje_retorno" name="porcentaje_retorno" value="20" min="0" max="100" required><br>
+        <label for="AOV">AOV:</label><br>
+        <input type="number" id="AOV" name="AOV" value="50" min="0" required><br>
+        <label for="split_nivel">Cuantos compradores van al nivel mas alto de descuento (porcentaje):</label><br>
+        <input type="number" id="split_nivel" name="split_nivel" value="50" min="0" max="100" required><br>
+        <input type="submit" value="Calcular" class="background-purple-1 color-white">
+    </form>
+</body>
+</html>

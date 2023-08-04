@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+      /* Definición de estilos previamente establecidos */
+      .color-black { color: #000000; }
+      .background-black { background-color: #282828; }
+      .border-black { border: 2px solid #212121; }
+      .background-dark-gray { background-color: #212121; }
+      .color-white { color: #ffffff; }
+      .background-white { background-color: #ffffff; }
+      .border-purple { border: 0px solid #AE9BE3; }
+      .background-purple-1 { background-color: #7453CF; }
+      .background-purple-2 { background-color: #AE9BE3; }
+      .color-green { color: #fbffef; }
+      .border-transparent { border: 4px solid rgba(0, 0, 0, 0.1); }
+      .border-left-purple { border-left-color: #AE9BE3; }
+      .font-size-15 { font-size: 15px; }
+      .font-size-12 { font-size: 12px; }
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+      .form-style {
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+      }
+      /* Define classes for font sizes */
+      .font-size-15 { font-size: 15px; }
+      .font-size-12 { font-size: 12px; }
+      .container {
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+    </style>
+</head>
+<body class="background-dark-gray color-white">
+  <div class="container">
+    <div class="form-style border-transparent background-black color-white font-size-15">
+        <h1>Ganancias adicionales con Dynamic Discounts</h1>
+        <h2>Gráfico de comparación</h2>
+        <div style="display: flex; justify-content: center;">
+          <canvas id="chart"></canvas>
+        </div>
+        <hr>
+        <h2>Comparación de Retorno Anual</h2>
+        <p><strong>Diferencia en ingresos (neto):</strong> ${{ "{:.2f}".format(diferencia_ingresos) }}</p>
+        <p><strong>Diferencia en ingresos (porcentaje):</strong> {{ "{:.2f}".format(diferencia_porcentual) }}%</p>
+        <p><strong>Proyección anual de ganancias adicionales:</strong> ${{ "{:.2f}".format(proyeccion_anual) }}</p>
+        <hr>
+        <h2>Detalle de los cálculos</h2>
+        <div class="font-size-12">
+          <table>
+            <tr>
+              <th>Concepto</th>
+              <th>Valor</th>
+            </tr>
+            <tr>
+              <td><strong>Primeros compradores:</strong></td>
+              <td>{{ primeros_compradores }}</td>
+            </tr>
+            <tr>
+              <td><strong>Nivel de descuento (porcentaje):</strong></td>
+              <td>{{ "{:.2f}".format(nivel_descuento*100) }}%</td>
+            </tr>
+            <tr>
+              <td><strong>Porcentaje de retorno (porcentaje):</strong></td>
+              <td>{{ "{:.2f}".format(porcentaje_retorno*100) }}%</td>
+            </tr>
+            <tr>
+              <td><strong>AOV:</strong></td>
+              <td>${{ "{:.2f}".format(AOV) }}</td>
+            </tr>
+            <tr>
+              <td><strong>División entre niveles de descuento (porcentaje):</strong></td>
+              <td>{{ "{:.2f}".format(split_nivel*100) }}%</td>
+            </tr>
+          </table>
+          <p><strong>Ingresos sin Dynamic Discounts:</strong></p>
+          <p>{{ primeros_compradores }} * {{ "{:.2f}".format(porcentaje_retorno) }} * {{ "{:.2f}".format(AOV) }} * (1 - {{ "{:.2f}".format(nivel_descuento) }}) = ${{ "{:.2f}".format(ingresos_sin_dd) }}</p>
+          <p><strong>Ingresos con Dynamic Discounts:</strong></p>
+          <p>Nivel 1: {{ primeros_compradores }} * {{ "{:.2f}".format(split_nivel) }} * {{ "{:.2f}".format(porcentaje_retorno) }} * {{ "{:.2f}".format(AOV) }} * (1 - {{ "{:.2f}".format(nivel_descuento) }})</p>
+          <p>Nivel 2: {{ primeros_compradores }} * (1 - {{ "{:.2f}".format(split_nivel) }}) * {{ "{:.2f}".format(porcentaje_retorno) }} * {{ "{:.2f}".format(AOV) }} * (1 - max({{ "{:.2f}".format(nivel_descuento) }} - 0.05, 0.05))</p>
+          <p><strong>Ingresos totales con Dynamic Discounts:</strong> ${{ "{:.2f}".format(ingresos_con_dd) }}</p>
+        </div>
+    </div>
+  </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      var ctx = document.getElementById('chart').getContext('2d');
+      var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['Ingresos sin DD', 'Ingresos con DD'],
+          datasets: [{
+            label: 'Ingresos',
+            data: [{{ "{:.2f}".format(ingresos_sin_dd*12) }}, {{ "{:.2f}".format(ingresos_con_dd*12) }}],
+            backgroundColor: ['#AE9BE3', '#7453CF'],
+            borderColor: ['#AE9BE3', '#7453CF'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                callback: function(value) {
+                  return '$' + value;
+                }
+              }
+            }
+          }
+        }
+      });
+    </script>
+</body>
+</html>
